@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('price_measurements', function (Blueprint $table) {
             $table->id();
             $table->integer('price_snapshot_id');
-            $table->unsignedTinyInteger('width');
-            $table->unsignedTinyInteger('height');
+            $table->unsignedFloat('width');
+            $table->unsignedFloat('height');
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('price');
+            $table->integer('square_inches')->virtualAs('width * height * quantity');
+            $table->float('price_per_square_inch')->virtualAs('price / square_inches');
             $table->string('variant')->nullable();
             $table->timestamps();
         });

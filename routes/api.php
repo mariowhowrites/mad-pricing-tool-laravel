@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PriceMeasurementController;
 use App\Http\Controllers\PriceSnapshotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/price-snapshots', [PriceSnapshotController::class, 'store']);
+Route::post('/price-measurements', [PriceMeasurementController::class, 'store']);

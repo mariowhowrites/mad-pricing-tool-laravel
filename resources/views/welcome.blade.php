@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>MadStickers</title>
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         @livewireStyles
     </head>
-    <body class="antialiased flex items-center justify-center h-full">
+    <body class="antialiased flex flex-col text-gray-200 items-center justify-center h-full bg-gray-800">
         <livewire:price-calculator />
 
         @livewireScripts

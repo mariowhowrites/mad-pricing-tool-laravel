@@ -8,7 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "scrape": "node scrapers/index.js"
+        "scrape": "node scrapers/zugmonster.js"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.7",

@@ -13,7 +13,9 @@ class StorePriceMeasurementRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        $isPublic = filter_var($this->ip(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE);
+
+        return !$isPublic;
     }
 
     /**
@@ -24,7 +26,7 @@ class StorePriceMeasurementRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'snapshotID' => 'required'
         ];
     }
 }

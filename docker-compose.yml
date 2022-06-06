@@ -90,6 +90,8 @@ services:
             - '${BROWSERLESS_CHROME_PORT:-3000}:3000'
         networks:
             - sail
+        environment:
+            - CONNECTION_TIMEOUT=-1
 
 networks:
     sail:

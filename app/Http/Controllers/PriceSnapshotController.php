@@ -43,27 +43,7 @@ class PriceSnapshotController extends Controller
 
         $priceSnapshot = PriceSnapshot::create(compact('url'));
 
-        $prices = $request->input('prices');
-
-        $priceMeasurements = collect($prices)->reduce(function ($acc, $price) use ($priceSnapshot) {            
-            foreach ($price['variantPrices'] as $variant => $totalPrice) {
-                $acc[] = [
-                    'price_snapshot_id' => $priceSnapshot->id,
-                    'width' => $price['measurements']['width'],
-                    'height' => $price['measurements']['height'],
-                    'quantity' => $price['measurements']['quantity'],
-                    'variant' => $variant,
-                    'price' => floatval($totalPrice) * 100,
-                    'created_at' => Carbon::now(),
-                ];
-            }
-
-            return $acc;
-        }, []);
-
-        PriceMeasurement::insert($priceMeasurements);
-
-        return 'OK';
+        return $priceSnapshot->id;
     }
 
     /**

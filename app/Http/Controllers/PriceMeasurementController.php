@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePriceMeasurementRequest;
 use App\Http\Requests\UpdatePriceMeasurementRequest;
 use App\Models\PriceMeasurement;
+use Carbon\Carbon;
 
 class PriceMeasurementController extends Controller
 {
@@ -36,7 +37,21 @@ class PriceMeasurementController extends Controller
      */
     public function store(StorePriceMeasurementRequest $request)
     {
-        //
+        $prices = $request->input('prices');
+
+        $priceMeasurements = collect($prices)->map(function ($measurement) use ($request) {            
+            return [
+                'price_snapshot_id' => $request->input('snapshotID'),
+                'width' => $measurement['width'],
+                'height' => $measurement['height'],
+                'quantity' => $measurement['quantity'],
+                'variant' => $measurement['variant'],
+                'price' => floatval($measurement['price']) * 100,
+                'created_at' => Carbon::now(),
+            ];
+        })->toArray();
+
+        PriceMeasurement::insert($priceMeasurements);
     }
 
     /**
