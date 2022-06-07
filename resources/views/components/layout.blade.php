@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>MadStickers</title>
+        <title>{{ $title ?? 'MadStickers'}}</title>
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         @livewireStyles
     </head>
-    <body class="antialiased flex flex-col text-gray-200 items-center justify-center h-full bg-gray-800">
-        <livewire:price-calculator />
+    <body class="antialiased flex flex-col text-white items-center justify-center h-full bg-blue-700">
+        {{ $slot }}
 
         @livewireScripts
     </body>

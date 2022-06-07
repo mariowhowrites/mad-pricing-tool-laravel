@@ -2,6 +2,7 @@ id: 31525
 name: mad-pricing-tool
 environments:
     production:
+        domain: madstickers.com
         memory: 1024
         cli-memory: 512
         database: 'madstickers'
@@ -10,6 +11,8 @@ environments:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
             - 'npm ci && npm run prod && rm -rf node_modules'
+        deploy:
+            -  'php artisan migrate --force'
     staging:
         memory: 1024
         cli-memory: 512
