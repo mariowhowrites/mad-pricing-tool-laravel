@@ -89,7 +89,7 @@ class PriceCalculator extends Component
                 $price = $price * 0.7;
             }
 
-            return [$result->variant => round($price, 2)];
+            return [$result->variant => number_format($price, 2)];
         });
     }
 
