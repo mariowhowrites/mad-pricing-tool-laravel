@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
 Route::get('/retail', function () {
     return view('retail');
 });
@@ -24,3 +28,6 @@ Route::get('/retail', function () {
 Route::get('/wholesale', function () {
     return view('wholesale');
 });
+
+
+require __DIR__.'/auth.php';
