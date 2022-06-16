@@ -26,4 +26,12 @@
             <li>{{ $this->formatKey($variant) }}: ${{ $price }}</li>
         @endforeach
     </ul>
+
+    {{-- <h2>Testing</h2>
+    <ul>
+        <li>Square Inches: {{ $this->squareInches }}</li>
+        <li>Closest Measurement: {{ dump($this->closestMeasurementID) }}</li>
+        <li>Closest Distance: {{ dump($this->closestDistance) }}</li>
+        <li>Results: {{ dump($this->results) }}</li>
+    </ul> --}}
 </div>

@@ -15,6 +15,11 @@ class PriceCalculator extends Component
     public $selectedURL = '';
     public $allURLs = [];
 
+    // testing
+    // public $closestMeasurementID;
+    // public $closestDistance;
+    // public $results;
+
     public $height = 1.0;
     public $width = 1.0;
     public $quantity = 50;
@@ -45,7 +50,7 @@ class PriceCalculator extends Component
 
     public function getSquareInchesProperty()
     {
-        return intval($this->width) * intval($this->height) * intval($this->quantity);
+        return floatval($this->width) * floatval($this->height) * intval($this->quantity);
     }
 
     public function getVariantPricesProperty()
@@ -75,11 +80,16 @@ class PriceCalculator extends Component
         $closestDistance = $closestMeasurement->distance;
 
         $results = DB::table('price_measurements')
-            ->select(['id', 'price_per_square_inch', 'variant', DB::raw("ABS(square_inches - {$this->squareInches}) AS distance")])
+            ->select(['id', 'price_per_square_inch', 'square_inches', 'variant', DB::raw("ABS(square_inches - {$this->squareInches}) AS distance")])
             ->where('price_snapshot_id', '=', $priceSnapshot->id)
             ->having('distance', '=', $closestDistance)
             ->orderBy('distance')
             ->get();
+
+        // testing
+        // $this->closestMeasurementID = $closestMeasurement->id;
+        // $this->closestDistance = $closestDistance;
+        // $this->results = $results;
                     
         return $results->flatMap(function ($result) {
             $price = $result->price_per_square_inch * $this->squareInches / 100;
