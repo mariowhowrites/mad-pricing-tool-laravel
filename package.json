@@ -8,7 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "scrape": "node scrapers/zugmonster.js"
+        "scrape": "node scrapers/calculator.js"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.4.0",

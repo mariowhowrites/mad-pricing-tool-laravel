@@ -4,8 +4,7 @@ const axios = require("axios").default;
 const puppeteer = require("puppeteer");
 
 let allPrices = [];
-const CALCULATOR_URL =
-    "https://zugmonster.com/collections/custom-stickers/products/custom-die-cut-stickers";
+const CALCULATOR_URL = process.env.CALCULATOR_URL;
 
 const VARIANTS = [
     "Gloss Laminated (6mil thick)",
@@ -13,12 +12,6 @@ const VARIANTS = [
     "Clear Laminated (6mil thick)",
     "Chrome",
 ];
-
-// const customSizeButton = document.documentElement.querySelector('input#product-custom-size');
-// const customQtyButton = document.documentElement.querySelector('input#product-custom-qty');
-
-// const customWidthSelect = document.documentElement.querySelector('select#cus_width');
-// const customHeightSelect = document.documentElement.querySelector('select#cus_height');
 
 (async () => {
     const { data: snapshotID } = await axios.post(
@@ -62,12 +55,10 @@ const VARIANTS = [
         });
 
         await page.type("#Quantity", String(quantity));
-        
+
         const price = await page.evaluate(
             () => document.documentElement.querySelector("#price").innerText
         );
-
-        previousPrice = price;
 
         return {
             width,
