@@ -15,4 +15,14 @@ class PriceSnapshot extends Model
     {
         return $this->hasMany(PriceMeasurement::class);
     }
+
+    public static function getByURL($url)
+    {
+        return static::select('id')
+            ->where('url', $url)
+            ->latest()
+            ->limit(1)
+            ->get()
+            ->first();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\PriceMeasurement;
 use App\Models\PriceSnapshot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -38,11 +39,6 @@ class PriceCalculator extends Component
         $this->selectedURL = $this->allURLs[0];
     }
 
-    public function updated($propertyName)
-    {
-        Log::info($this->validateOnly($propertyName));
-    }
-
     public function render()
     {
         return view('livewire.price-calculator');
@@ -55,52 +51,15 @@ class PriceCalculator extends Component
 
     public function getVariantPricesProperty()
     {
-        $priceSnapshot = PriceSnapshot::select('id')
-            ->where('url', $this->selectedURL)
-            ->latest()
-            ->limit(1)
-            ->get()
-            ->first();
+        $priceSnapshot = PriceSnapshot::getbyURL($this->selectedURL);
 
-        $closestMeasurement = DB::table('price_measurements')->select([ 
-            'id', DB::raw("ABS(square_inches - {$this->squareInches}) AS distance")
-        ])
-            ->where('price_snapshot_id', '=', $priceSnapshot->id)
-            ->orderBy('distance')
-            ->distinct()
-            ->limit(1)
-            ->get()
-            ->first();
-        
+        $closestMeasurement = PriceMeasurement::getClosest($priceSnapshot, $this->squareInches);
 
         if (!$closestMeasurement) {
             return [];
         }
 
-        $closestDistance = $closestMeasurement->distance;
-
-        $results = DB::table('price_measurements')
-            ->select(['id', 'price_per_square_inch', 'square_inches', 'variant', DB::raw("ABS(square_inches - {$this->squareInches}) AS distance")])
-            ->where('price_snapshot_id', '=', $priceSnapshot->id)
-            ->having('distance', '=', $closestDistance)
-            ->orderBy('distance')
-            ->get();
-
-        // testing
-        // $this->closestMeasurementID = $closestMeasurement->id;
-        // $this->closestDistance = $closestDistance;
-        // $this->results = $results;
-                    
-        return $results->flatMap(function ($result) {
-            $price = $result->price_per_square_inch * $this->squareInches / 100;
-
-            // take 30% off for wholesale
-            if ($this->wholesale) {
-                $price = $price * 0.7;
-            }
-
-            return [$result->variant => number_format($price, 2)];
-        });
+        return PriceMeasurement::getPricesForDistance($priceSnapshot, $this->squareInches, $closestMeasurement->distance, $this->wholesale);
     }
 
     public function formatKey($key)
