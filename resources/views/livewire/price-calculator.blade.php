@@ -27,6 +27,8 @@
         @endforeach
     </ul>
 
+    <button class="bg-red-500 hover:bg-red-700 text-white px-2 py-3 rounded-lg shadow-md hover:shadow-lg" wire:click="addToCart">Add to Cart</button>
+
     {{-- <h2>Testing</h2>
     <ul>
         <li>Square Inches: {{ $this->squareInches }}</li>

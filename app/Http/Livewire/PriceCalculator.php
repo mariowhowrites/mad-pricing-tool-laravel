@@ -2,10 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Cart;
 use App\Models\PriceMeasurement;
 use App\Models\PriceSnapshot;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class PriceCalculator extends Component
@@ -73,5 +72,19 @@ class PriceCalculator extends Component
         }
 
         return $key;
+    }
+
+    public function addToCart()
+    {
+        $measurements = [
+            'width' => floatval($this->width),
+            'height' => floatval($this->height),
+            'quantity' => intval($this->quantity)
+        ];
+
+        // this can be separate job... probably don't need to wait for this to respond to request
+        Cart::addBatchFromMeasurements($measurements);
+
+        return redirect()->to(route('cart'));
     }
 }

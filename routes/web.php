@@ -29,5 +29,9 @@ Route::get('/wholesale', function () {
     return view('wholesale');
 });
 
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
+
 
 require __DIR__.'/auth.php';
