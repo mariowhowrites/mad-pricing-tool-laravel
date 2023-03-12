@@ -23,6 +23,8 @@ class PriceCalculator extends Component
     public $height = 1.0;
     public $width = 1.0;
     public $quantity = 50;
+    public $variant = "";
+    public $price = 0;
 
     protected $rules = [
         'width' => 'numeric|min:1|max:36',
@@ -30,12 +32,13 @@ class PriceCalculator extends Component
         'quantity' => 'integer|min:50|max:10000',
     ];
 
-    public function mount() 
+    public function mount()
     {
         $urls = PriceSnapshot::select(['url'])->orderBy('created_at', 'asc')->get()->pluck('url');
 
         $this->allURLs = $urls;
         $this->selectedURL = $this->allURLs[0];
+        $this->variant = $this->variantPrices->keys()[0];
     }
 
     public function render()
@@ -48,17 +51,17 @@ class PriceCalculator extends Component
         return floatval($this->width) * floatval($this->height) * intval($this->quantity);
     }
 
+    public function getPriceSnapshotProperty()
+    {
+        return PriceSnapshot::getByURL($this->selectedURL);
+    }
+
     public function getVariantPricesProperty()
     {
-        $priceSnapshot = PriceSnapshot::getbyURL($this->selectedURL);
-
-        $closestMeasurement = PriceMeasurement::getClosest($priceSnapshot, $this->squareInches);
-
-        if (!$closestMeasurement) {
-            return [];
-        }
-
-        return PriceMeasurement::getPricesForDistance($priceSnapshot, $this->squareInches, $closestMeasurement->distance, $this->wholesale);
+        return $this->priceSnapshot->getVariantPricesBySquareInches(
+                $this->squareInches,
+                $this->wholesale
+            );
     }
 
     public function formatKey($key)
@@ -76,14 +79,17 @@ class PriceCalculator extends Component
 
     public function addToCart()
     {
-        $measurements = [
+        $dimensions = [
             'width' => floatval($this->width),
             'height' => floatval($this->height),
-            'quantity' => intval($this->quantity)
+            'quantity' => intval($this->quantity),
+            'variant' => $this->variant,
+            'wholesale' => $this->wholesale,
+            'price_snapshot_id' => $this->priceSnapshot->id
         ];
 
         // this can be separate job... probably don't need to wait for this to respond to request
-        Cart::addBatchFromMeasurements($measurements);
+        Cart::addBatchFromDimensions($dimensions);
 
         return redirect()->to(route('cart'));
     }

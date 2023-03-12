@@ -19,9 +19,11 @@ return new class extends Migration
             $table->unsignedFloat('width');
             $table->unsignedFloat('height');
             $table->unsignedInteger('quantity');
-            $table->unsignedFloat('price');
-            $table->integer('square_inches')->virtualAs('width * height * quantity');
-            $table->float('price_per_square_inch', 8, 3)->virtualAs('price / square_inches');
+            $table->unsignedFloat('price', 15, 2);
+            // $table->integer('square_inches')->virtualAs('width * height * quantity');
+            // $table->float('price_per_square_inch', 8, 3)->virtualAs('price / square_inches');
+            $table->integer('square_inches');
+            $table->float('price_per_square_inch', 8, 3);
             $table->string('variant')->nullable();
             $table->timestamps();
         });

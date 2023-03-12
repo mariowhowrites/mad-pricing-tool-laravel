@@ -25,4 +25,25 @@ class PriceSnapshot extends Model
             ->get()
             ->first();
     }
+
+    public function getClosestMeasurementBySquareInches($squareInches)
+    {
+        return PriceMeasurement::getClosest($squareInches, $this->id);
+    }
+
+    public function getVariantPricesBySquareInches($squareInches, $wholesale = false)
+    {
+        $closestMeasurement = $this->getClosestMeasurementBySquareInches($squareInches);
+
+        if (!$closestMeasurement) {
+            return [];
+        }
+
+        return PriceMeasurement::getVariantPricesBySquareInches(
+            $squareInches,
+            $this->id,
+            $closestMeasurement->distance,
+            $wholesale
+        );
+    }
 }

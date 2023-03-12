@@ -16,15 +16,20 @@ class Cart extends Model
         return $this->hasMany(Batch::class);
     }
 
-    // $measurements has `height`, `width`, and `quantity`
+    // $dimensions has `height`, `width`, and `quantity`
     // side effect -- creates a cart, probably should inherit this 
-    public static function addBatchFromMeasurements($measurements)
+    public static function addBatchFromDimensions($dimensions)
     {
-        Batch::create([
-            'width' => floatval($measurements['width']),
-            'height' => floatval($measurements['height']),
-            'quantity' => intval($measurements['quantity']),
-            'cart_id' => Cart::firstOrCreate(['session_id' => session()->getId()])->id
-        ]);
+        Batch::create(
+            array_merge(
+                $dimensions,
+                ['cart_id' => static::getFromSession()->id]
+            )
+        );
+    }
+    
+    public static function getFromSession()
+    {
+        return static::firstOrCreate(['session_id' => session()->getId()]);
     }
 }

@@ -17,12 +17,12 @@ class PriceMeasurement extends Model
         return $this->belongsTo(PriceSnapshot::class);
     }
 
-    public static function getClosest($priceSnapshot, $squareInches)
+    public static function getClosest($squareInches, $snapshotID)
     {
         return DB::table('price_measurements')->select([
             'id', DB::raw("ABS(square_inches - {$squareInches}) AS distance")
         ])
-            ->where('price_snapshot_id', '=', $priceSnapshot->id)
+            ->where('price_snapshot_id', '=', $snapshotID)
             ->orderBy('distance')
             ->distinct()
             ->limit(1)
@@ -30,11 +30,11 @@ class PriceMeasurement extends Model
             ->first();
     }
 
-    public static function getPricesForDistance($priceSnapshot, $squareInches, $closestDistance, $wholesale = false)
+    public static function getVariantPricesBySquareInches($squareInches, $snapshotID, $closestDistance, $wholesale = false)
     {
         $results = DB::table('price_measurements')
             ->select(['id', 'price_per_square_inch', 'square_inches', 'variant', DB::raw("ABS(square_inches - {$squareInches}) AS distance")])
-            ->where('price_snapshot_id', '=', $priceSnapshot->id)
+            ->where('price_snapshot_id', '=', $snapshotID)
             ->having('distance', '=', $closestDistance)
             ->orderBy('distance')
             ->get();
