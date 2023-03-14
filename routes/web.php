@@ -33,5 +33,12 @@ Route::get('/cart', function () {
     return view('cart');
 })->name('cart');
 
+Route::get('/checkout/success', function() {
+    return 'great success!';
+})->name('checkout.success');
+
+Route::get('/checkout/cancel', function() {
+    return 'order canceled!';
+})->name('checkout.cancel');
 
 require __DIR__.'/auth.php';

@@ -25,25 +25,51 @@ class Batch extends Model
 
     public function squareInches(): Attribute
     {
-        return Attribute::make(get: fn ($value) => $this->width * $this->height * $this->quantity);
+        return Attribute::make(get: fn () => $this->width * $this->height * $this->quantity);
     }
 
-    public function readablePrice(): Attribute
+    public function priceInDollars(): Attribute
     {
-        return Attribute::make(get: function($value) {
+        return Attribute::make(get: function() {
             $variantPrices = $this->priceSnapshot->getVariantPricesBySquareInches(
                 $this->squareInches,
                 $this->wholesale
             );
 
-            Log::info($this->variant);
-            Log::info($variantPrices);
-    
+                
             if (key_exists($this->variant, $variantPrices->toArray())) {
-                return "$" . $variantPrices[$this->variant];
+                return $variantPrices[$this->variant];
             }
     
             return "Variant not found, cannot determine price";
         });
+    }
+
+    public function priceInCents(): Attribute
+    {
+        return Attribute::make(get: function() {
+            return $this->price_in_dollars * 100;
+        });
+    }
+
+    public function unitPrice(): Attribute
+    {
+        return Attribute::make(get: function() {
+            return $this->price_in_cents / $this->quantity;
+        });
+    }
+
+    public function convertToLineItem()
+    {
+        return [
+            'price_data' => [
+                'currency' => 'usd',
+                'product_data' => [
+                    'name' => $this->variant,
+                ],
+                'unit_amount' => $this->unit_price
+            ],
+            'quantity' => $this->quantity
+        ];
     }
 }

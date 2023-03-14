@@ -3,5 +3,5 @@
     MadStickers Cart
   </x-slot>
 
-  <livewire:cart />
+  <livewire:cart-component />
 </x-layout>
