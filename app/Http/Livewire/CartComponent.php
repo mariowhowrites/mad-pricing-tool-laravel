@@ -45,9 +45,7 @@ class CartComponent extends Component
 
     public function refreshCart()
     {
-        $cart = CartModel::firstOrCreate(['session_id' => session()->getId()]);
-
-        $this->cart = $cart;
+        $this->cart = CartModel::getFromSession();
     }
 
     public function checkout(StripeClient $stripe)
@@ -56,7 +54,8 @@ class CartComponent extends Component
             'line_items' => $this->convertCartToLineItems(),
             'success_url' => route('checkout.success'),
             'cancel_url' => route('checkout.cancel'),
-            'mode' => 'payment'
+            'mode' => 'payment',
+            'client_reference_id' => $this->cart->id
         ];
 
         // we are interacting with stripe here, we need to have a fallback in case this fails

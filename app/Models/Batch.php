@@ -18,6 +18,11 @@ class Batch extends Model
         return $this->belongsTo(Cart::class);
     }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
     public function priceSnapshot()
     {
         return $this->belongsTo(PriceSnapshot::class);
@@ -59,6 +64,7 @@ class Batch extends Model
         });
     }
 
+    // used to convert Eloquent model into Stripe-compatible line item
     public function convertToLineItem()
     {
         return [
@@ -67,7 +73,8 @@ class Batch extends Model
                 'product_data' => [
                     'name' => $this->variant,
                 ],
-                'unit_amount' => $this->unit_price
+                // we are going to round this amount for now... but likely we should round it in the display price as well
+                'unit_amount' => round($this->unit_price)
             ],
             'quantity' => $this->quantity
         ];

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedFloat('width');
             $table->unsignedFloat('height');
             $table->integer('cart_id');
+            $table->integer('order_id')->nullable();
             $table->string('variant');
             $table->boolean('wholesale')->default(false);
             $table->integer('price_snapshot_id');

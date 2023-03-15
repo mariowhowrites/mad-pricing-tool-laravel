@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +41,9 @@ Route::get('/checkout/success', function() {
 Route::get('/checkout/cancel', function() {
     return 'order canceled!';
 })->name('checkout.cancel');
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'create']);
+
+Route::get('/stripe/webhook', [StripeWebhookController::class, 'show']);
 
 require __DIR__.'/auth.php';
