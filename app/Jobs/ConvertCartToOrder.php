@@ -35,15 +35,6 @@ class ConvertCartToOrder implements ShouldQueue
      */
     public function handle()
     {
-        // how do we want to handle moving batches from carts to orders?
-
-        // can we delete the cart, then attach the batch to an order?
-
-        // something tells me we don't want to delete the cart to start off with, maybe a soft delete?
-
-        // let's just do the easiest way for now
-        Log::info('beginning conversion');
-
         $order = Order::create();
 
         $order->batches()->saveMany($this->cart->batches);
@@ -51,7 +42,5 @@ class ConvertCartToOrder implements ShouldQueue
         $this->cart->update([
             'converted' => true
         ]);
-
-        Log::info('ending conversion');
     }
 }
