@@ -1,3 +1,5 @@
 <x-layout>
-  <h2 class="text-4xl mb-4">MadStickers -- Coming Soon</h2>
+    <a href="{{ route('retail') }}">
+        <h2 class="text-4xl mb-4 text-9xl">STICKERS</h2>
+    </a>
 </x-layout>

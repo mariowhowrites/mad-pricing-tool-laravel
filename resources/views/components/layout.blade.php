@@ -6,7 +6,7 @@
 
         <title>{{ $title ?? 'MadStickers'}}</title>
 
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         @livewireStyles
     </head>
