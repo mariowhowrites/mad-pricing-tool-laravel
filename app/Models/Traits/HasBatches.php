@@ -20,4 +20,11 @@ trait HasBatches
             }, 0);
         });
     }
+
+    public function quantity(): Attribute
+    {
+        return Attribute::make(get: function() {
+            return $this->batches->sum('quantity');
+        });
+    }
 }

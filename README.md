@@ -62,3 +62,9 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Stripe
+
+To get Stripe webhooks working locally:
+
+`stripe listen --forward-to pricing-tool.test/stripe/webhook`

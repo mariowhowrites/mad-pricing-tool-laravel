@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->string('session_id');
+            $table->string('user_id')->nullable();
             $table->boolean('converted')->default(false);
             $table->timestamps();
         });

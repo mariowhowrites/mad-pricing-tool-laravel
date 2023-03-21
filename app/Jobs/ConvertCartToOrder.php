@@ -35,12 +35,16 @@ class ConvertCartToOrder implements ShouldQueue
      */
     public function handle()
     {
-        $order = Order::create();
+        $order = Order::create([
+            'user_id' => $this->cart->user->id ?? null
+        ]);
 
         $order->batches()->saveMany($this->cart->batches);
 
         $this->cart->update([
             'converted' => true
         ]);
+
+        Log::info($order->fresh());
     }
 }
