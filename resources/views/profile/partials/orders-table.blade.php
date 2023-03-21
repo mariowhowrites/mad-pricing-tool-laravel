@@ -11,7 +11,6 @@
 
     <div class="overflow-hidden bg-white shadow sm:rounded-md mt-6">
         <ul role="list" class="divide-y divide-gray-200">
-            {{ Auth::user()->orders->count() }}
             @foreach (Auth::user()->orders as $order)
             <li>
                 <a href="#" class="block hover:bg-gray-50">
@@ -24,23 +23,16 @@
                             </div>
                             <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                 <div>
-                                    <p class="truncate text-sm font-medium text-indigo-600">{{ $order->id }}</p>
+                                    <p class="truncate text-sm font-medium text-indigo-600">Order #{{ $order->id }}</p>
                                     <p class="mt-2 flex items-center text-sm text-gray-500">
-                                        <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20"
-                                            fill="currentColor" aria-hidden="true">
-                                            <path
-                                                d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                                            <path
-                                                d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
-                                        </svg>
-                                        <span class="truncate">ricardo.cooper@example.com</span>
+                                        <span class="truncate">{{ $order->quantity}}ct, ${{ $order->price_in_dollars }}</span>
                                     </p>
                                 </div>
                                 <div class="hidden md:block">
                                     <div>
                                         <p class="text-sm text-gray-900">
-                                            Applied on
-                                            <time datetime="2020-01-07">January 7, 2020</time>
+                                            Ordered on
+                                            <time datetime="{{ $order->created_at->toDateString() }}">{{ $order->created_at->toFormattedDateString() }}</time>
                                         </p>
                                         <p class="mt-2 flex items-center text-sm text-gray-500">
                                             <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400" viewBox="0 0 20 20"
