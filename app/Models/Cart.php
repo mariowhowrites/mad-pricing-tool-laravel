@@ -27,10 +27,11 @@ class Cart extends Model
             $cart = static::getFromSession();
         }
 
-        Log::info($cart);
-        Log::info($dimensions);
+        if (!isset($dimensions['price_snapshot_id'])) {
+            $dimensions['price_snapshot_id'] = PriceSnapshot::latest()->first()->id;
+        }
 
-        Batch::create(
+        return Batch::create(
             array_merge(
                 $dimensions,
                 ['cart_id' => $cart->id]

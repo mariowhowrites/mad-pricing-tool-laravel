@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ImageUploadPageController;
+use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\TemporaryAssetController;
+use App\Http\Livewire\ExampleComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,23 +34,19 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/retail', function () {
-    return view('retail');
-})->name('retail');
+Route::get('/retail', [ProductPageController::class, 'retail'])->name('retail');
 
-Route::get('/wholesale', function () {
-    return view('wholesale');
-})->name('wholesale');
+Route::get('/wholesale', [ProductPageController::class, 'wholesale'])->name('wholesale');
 
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
+Route::get('upload', [ImageUploadPageController::class, 'index'])->name('upload');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
 
 Route::get('/checkout/success', function() {
     return 'great success!';
@@ -58,5 +59,9 @@ Route::get('/checkout/cancel', function() {
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'create']);
 
 Route::get('/stripe/webhook', [StripeWebhookController::class, 'show']);
+
+Route::get('example', ExampleComponent::class);
+
+Route::get('/assets/temp', [TemporaryAssetController::class, 'show'])->name('assets.temp');
 
 require __DIR__.'/auth.php';

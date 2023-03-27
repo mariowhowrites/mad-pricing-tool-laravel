@@ -38,7 +38,7 @@ class CartComponent extends Component
 
     public function deleteBatch($batch)
     {
-        Batch::destroy($batch['id']);
+        Batch::deleteAndClearAssets($batch['id']);
 
         $this->refreshCart();
     }

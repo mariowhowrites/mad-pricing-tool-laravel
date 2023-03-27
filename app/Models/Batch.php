@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasAssets;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class Batch extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAssets;
 
     protected $guarded = [];
 
@@ -78,5 +79,22 @@ class Batch extends Model
             ],
             'quantity' => $this->quantity
         ];
+    }
+
+    public static function deleteAndClearAssets($batchID)
+    {
+        $batch = static::find($batchID);
+
+        if ($batch->order_id) {
+            Log::error("Cannot delete batch {$batchID} because it is associated with order {$batch->order_id}");
+            return;
+        }
+
+        $batch->assets()->where('status', 'temporary')->get()->each(function($asset) use ($batch) {
+            $batch->assets()->detach($asset->id);
+            $asset->delete();
+        });
+
+        $batch->delete();
     }
 }

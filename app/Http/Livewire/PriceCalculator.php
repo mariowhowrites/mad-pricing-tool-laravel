@@ -59,38 +59,24 @@ class PriceCalculator extends Component
     public function getVariantPricesProperty()
     {
         return $this->priceSnapshot->getVariantPricesBySquareInches(
-                $this->squareInches,
-                $this->wholesale
-            );
+            $this->squareInches,
+            $this->wholesale
+        );
     }
 
-    public function formatKey($key)
+    public function goToImageUpload()
     {
-        if ($key === 'Gloss Laminated (6mil thick)') {
-            return 'Gloss Laminated';
-        }
-
-        if ($key === 'Clear Laminated (6mil thick)') {
-            return 'Clear Laminated';
-        }
-
-        return $key;
-    }
-
-    public function addToCart()
-    {
-        $dimensions = [
+        $batch = [
             'width' => floatval($this->width),
             'height' => floatval($this->height),
             'quantity' => intval($this->quantity),
             'variant' => $this->variant,
-            'wholesale' => $this->wholesale,
-            'price_snapshot_id' => $this->priceSnapshot->id
         ];
 
-        // this can be separate job... probably don't need to wait for this to respond to request
-        Cart::addBatchFromDimensions($dimensions);
+        if ($this->wholesale) {
+            $batch['wholesale'] = true;
+        }
 
-        return redirect()->to(route('cart'));
+        return redirect()->route('upload', $batch);
     }
 }

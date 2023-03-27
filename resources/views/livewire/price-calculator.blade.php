@@ -23,7 +23,7 @@
     </div>
 
     <h2 class="text-3xl my-2">Your Prices</h2>
-    <form class="flex flex-col" wire:submit.prevent="addToCart">
+    <form class="flex flex-col" wire:submit.prevent="goToImageUpload">
         @foreach($this->variantPrices as $variant => $price)
         <div>
             <input 
@@ -32,7 +32,7 @@
                 name="variant" 
                 wire:model="variant"
             >
-            <label for="{{ $this->formatKey($variant)}}">{{ $this->formatKey($variant) }}: ${{ $price }}</label>
+            <label for="{{ $variant }}">{{ $variant }}: ${{ $price }}</label>
         </div>
         @endforeach
 
