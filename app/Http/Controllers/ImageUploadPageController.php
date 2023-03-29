@@ -15,8 +15,6 @@ class ImageUploadPageController extends Controller
             return redirect()->route('retail');
         }
 
-        Log::info('made it to the controller');
-
         return view('upload', ['batch' => $request->all()]);
     }
 }

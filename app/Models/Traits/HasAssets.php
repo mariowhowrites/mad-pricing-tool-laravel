@@ -23,9 +23,14 @@ trait HasAssets
         $this->assets()->detach($asset);
     }
 
+    public function temporaryAssets()
+    {
+        return $this->assets()->where('status', 'temporary');
+    }
+
     public function getTemporaryAsset()
     {
-        $tempAsset = $this->assets()->where('status', 'temporary')->first(); 
+        $tempAsset = $this->temporaryAssets()->first(); 
 
         if (!$tempAsset) {
             return;
@@ -37,5 +42,18 @@ trait HasAssets
     public function getTemporaryAssetURL()
     {
         return route('assets.temp', ['token' => Crypt::encrypt($this->id)]);
+    }
+
+    // we need a function that will move assets from temporary to customer_upload once a cart is converted to an order
+    // we listen to the `updating` hook, and if there's an order_id change, we move the assets
+    public static function bootHasAssets()
+    {
+        static::updating(function ($model) {
+            if ($model->isDirty('order_id')) {
+                $model->temporaryAssets()->get()->each(function ($asset) {
+                    $asset->update(['status' => 'customer_upload']);
+                });
+            }
+        });
     }
 }

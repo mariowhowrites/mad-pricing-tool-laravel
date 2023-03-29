@@ -31,7 +31,7 @@ class StripeWebhookController extends Controller
                 $session = $stripe->checkout->sessions->retrieve($event->data->object->id);
 
                 // create a job where cart items are moved to an order
-                ConvertCartToOrder::dispatch(Cart::find($session->client_reference_id));
+                ConvertCartToOrder::dispatch($session);
         }
 
         return response('', 200);

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Asset extends Model
@@ -12,6 +13,40 @@ class Asset extends Model
     public function batches()
     {
         return $this->belongsToMany(Batch::class);
+    }
+
+    // in our boot function, we want to move all temporary assets to the customer_upload disk
+    // we create an `updated` event listener in our `boot` method, and if the status changes to `customer_upload`, we move the file
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($asset) {
+            Log::info('Asset updated: ' . $asset->id . $asset->status);
+            if ($asset->status === 'customer_upload') {
+                $asset->moveToCustomerUploadDisk();
+            }
+        });
+    }
+
+    // here, we need to retrieve the image stored at `upload_path` and move it to the `customer_upload` disk
+    public function moveToCustomerUploadDisk()
+    {
+        $file = Storage::disk('temp')->get($this->upload_path);
+        
+        Log::info('Moving asset to customer_upload disk: ' . $this->upload_path);
+        $success = Storage::disk('customer_upload')->put($this->upload_path, $file);
+        
+        if ($success) {
+            Log::info('Deleting asset from temp disk: ' . $this->upload_path);
+            Storage::disk('temp')->delete($this->upload_path);
+
+            // we can also delete the directory where the temporary asset was stored
+            // we can get the directory name from the upload_path
+            $directory = explode('/', $this->upload_path)[0];
+            Storage::disk('temp')->deleteDirectory($directory);
+        }
     }
 
     public static function createTemporaryAsset($file, $batch)

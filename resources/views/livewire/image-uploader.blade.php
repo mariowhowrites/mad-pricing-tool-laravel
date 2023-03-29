@@ -1,4 +1,4 @@
-<div>
+<div class="flex flex-col items-center">
     <h1>Upload your image here</h1>
     <input id="image-input" type="file" wire:model="image">
 

@@ -90,7 +90,7 @@ class Batch extends Model
             return;
         }
 
-        $batch->assets()->where('status', 'temporary')->get()->each(function($asset) use ($batch) {
+        $batch->temporaryAssets()->get()->each(function($asset) use ($batch) {
             $batch->assets()->detach($asset->id);
             $asset->delete();
         });

@@ -51,6 +51,9 @@ class CartComponent extends Component
     public function checkout(StripeClient $stripe)
     {
         $checkoutParams = [
+            'shipping_address_collection' => [
+                'allowed_countries' => ['US'],
+            ],
             'line_items' => $this->convertCartToLineItems(),
             'success_url' => route('checkout.success'),
             'cancel_url' => route('checkout.cancel'),
