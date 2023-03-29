@@ -56,7 +56,7 @@ class CartComponent extends Component
             ],
             'line_items' => $this->convertCartToLineItems(),
             'success_url' => route('checkout.success'),
-            'cancel_url' => route('checkout.cancel'),
+            'cancel_url' => route('cart'),
             'mode' => 'payment',
             'client_reference_id' => $this->cart->id
         ];
