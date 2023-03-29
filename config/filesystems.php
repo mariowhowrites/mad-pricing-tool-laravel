@@ -50,9 +50,9 @@ return [
             'throw' => false
         ],
 
-        'customer_upload' => [
+        'customer_assets' => [
             'driver' => 'local',
-            'root' => storage_path('app/assets/customer_upload'),
+            'root' => storage_path('app/assets/customer_assets'),
             'throw' => false
         ],
 

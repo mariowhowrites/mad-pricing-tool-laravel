@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('upload_path');
-            $table->string('status'); // temporary, customer_upload, admin_upload, archive
+            $table->string('status'); // temporary, customer_assets, admin_upload, archive
         });
     }
 

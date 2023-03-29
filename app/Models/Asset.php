@@ -15,28 +15,27 @@ class Asset extends Model
         return $this->belongsToMany(Batch::class);
     }
 
-    // in our boot function, we want to move all temporary assets to the customer_upload disk
-    // we create an `updated` event listener in our `boot` method, and if the status changes to `customer_upload`, we move the file
+    // in our boot function, we want to move all temporary assets to the customer_assets disk
+    // we create an `updated` event listener in our `boot` method, and if the status changes to `customer_assets`, we move the file
 
     public static function boot()
     {
         parent::boot();
 
         static::updated(function ($asset) {
-            Log::info('Asset updated: ' . $asset->id . $asset->status);
-            if ($asset->status === 'customer_upload') {
-                $asset->moveToCustomerUploadDisk();
+            if ($asset->status === 'customer_assets') {
+                $asset->moveToCustomerAssetsDisk();
             }
         });
     }
 
-    // here, we need to retrieve the image stored at `upload_path` and move it to the `customer_upload` disk
-    public function moveToCustomerUploadDisk()
+    // here, we need to retrieve the image stored at `upload_path` and move it to the `customer_assets` disk
+    public function moveToCustomerAssetsDisk()
     {
         $file = Storage::disk('temp')->get($this->upload_path);
         
-        Log::info('Moving asset to customer_upload disk: ' . $this->upload_path);
-        $success = Storage::disk('customer_upload')->put($this->upload_path, $file);
+        Log::info('Moving asset to customer_assets disk: ' . $this->upload_path);
+        $success = Storage::disk('customer_assets')->put($this->upload_path, $file);
         
         if ($success) {
             Log::info('Deleting asset from temp disk: ' . $this->upload_path);
@@ -77,5 +76,5 @@ class Asset extends Model
 // - uploaded by customer
 // - uploaded by admin
 // assets should be moved automatically based on what happens with carts/orders
-// - when a cart is converted to an order, move assets from temporary to 'customer_upload'
-// - when an order is completed, move assets from 'customer_upload' to 'archive'
+// - when a cart is converted to an order, move assets from temporary to 'customer_assets'
+// - when an order is completed, move assets from 'customer_assets' to 'archive'

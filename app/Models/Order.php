@@ -20,4 +20,11 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class);
     }
+
+    public function customerUploadPaths()
+    {
+        return $this->batches->map(function ($batch) {
+            return $batch->latestCustomerUploadPath();
+        });
+    }
 }

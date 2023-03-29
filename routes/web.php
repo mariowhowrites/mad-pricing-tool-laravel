@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\TemporaryAssetController;
 use App\Http\Livewire\ExampleComponent;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,5 +64,12 @@ Route::get('/stripe/webhook', [StripeWebhookController::class, 'show']);
 Route::get('example', ExampleComponent::class);
 
 Route::get('/assets/temp', [TemporaryAssetController::class, 'show'])->name('assets.temp');
+
+
+Route::get('/mailable', function () {
+    $order = Order::find(1);
+   
+    return new App\Mail\OrderCreated($order);
+});
 
 require __DIR__.'/auth.php';
