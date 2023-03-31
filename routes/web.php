@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImageUploadPageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
@@ -65,11 +66,13 @@ Route::get('example', ExampleComponent::class);
 
 Route::get('/assets/temp', [TemporaryAssetController::class, 'show'])->name('assets.temp');
 
+Route::get('/profile/orders/{order}', [OrderController::class, 'show'])->name('profile.orders.show');
 
-Route::get('/mailable', function () {
-    $order = Order::find(1);
+
+// Route::get('/mailable', function () {
+//     $order = Order::find(1);
    
-    return new App\Mail\OrderCreated($order);
-});
+//     return new App\Mail\OrderCreated($order);
+// });
 
 require __DIR__.'/auth.php';

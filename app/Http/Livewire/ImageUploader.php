@@ -19,12 +19,15 @@ class ImageUploader extends Component
         return view('livewire.image-uploader');
     }
 
-    public function addToCart()
+    public function updatedImage()
     {
         $this->validate([
-            'image' => 'required|image',
+            'image' => 'required|image|max:51200',
         ]);
+    }
 
+    public function addToCart()
+    {
         $batch = Cart::addBatchFromDimensions($this->batch);
 
         Asset::createTemporaryAsset($this->image, $batch);
