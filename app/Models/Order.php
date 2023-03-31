@@ -27,10 +27,15 @@ class Order extends Model
         return $this->hasOne(Cart::class);
     }
 
-    public function customerUploadPaths()
+    public function customerAssetPaths()
     {
         return $this->batches->map(function ($batch) {
-            return $batch->latestCustomerUploadPath();
+            return $batch->latestCustomerAssetPath();
         });
+    }
+
+    public function firstCustomerUploadPath()
+    {
+        return $this->batches->first()->getCustomerAssetURL();
     }
 }

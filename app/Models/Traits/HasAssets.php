@@ -67,8 +67,6 @@ trait HasAssets
     {
         $asset = $this->customerAssets()->latest()->first();
 
-        Log::info($this->id);
-
         if (!$asset) {
             return;
         }
