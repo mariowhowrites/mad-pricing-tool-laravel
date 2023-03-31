@@ -65,6 +65,10 @@
                             {{ __('Register') }}
                         </x-dropdown-link>
                         @endauth
+
+                        <x-dropdown-link :href="route('cart')">
+                            {{ __('Cart') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
