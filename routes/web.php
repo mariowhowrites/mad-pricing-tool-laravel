@@ -67,11 +67,4 @@ Route::get('/assets/customer', [CustomerAssetController::class, 'show'])->name('
 
 Route::get('/profile/orders/{order}', [OrderController::class, 'show'])->name('profile.orders.show');
 
-
-// Route::get('/mailable', function () {
-//     $order = Order::find(1);
-   
-//     return new App\Mail\OrderCreated($order);
-// });
-
 require __DIR__.'/auth.php';
