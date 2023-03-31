@@ -74,4 +74,9 @@ trait HasAssets
 
         return $asset->upload_path;
     }
+
+    public function getCustomerAssetURL()
+    {
+        return route('assets.customer', ['token' => Crypt::encrypt($this->id)]);
+    }
 }

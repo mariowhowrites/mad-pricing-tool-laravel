@@ -6,6 +6,7 @@ use App\Models\Traits\HasBatches;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -18,6 +19,12 @@ class Cart extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // when converted, a cart will be associated with an order
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 
     // $dimensions has `height`, `width`, and `quantity` 
@@ -46,7 +53,7 @@ class Cart extends Model
         return static::firstOrCreate([
             'session_id' => session()->getId(),
             'user_id' => $user ? $user->id : null,
-            'converted' => false
+            'order_id' => null
         ]);
     }
 }

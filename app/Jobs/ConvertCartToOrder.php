@@ -13,6 +13,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Checkout\Session;
 
@@ -43,6 +45,17 @@ class ConvertCartToOrder implements ShouldQueue
      */
     public function handle()
     {
+        try {
+            DB::transaction(fn () => $this->runTransaction());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        Mail::to('mariovegadev@gmail.com')->send(new OrderCreated($this->cart->fresh()->order));
+    }
+
+    protected function runTransaction()
+    {
         $user = null;
 
         if ($this->cart->user) {
@@ -62,9 +75,7 @@ class ConvertCartToOrder implements ShouldQueue
         $order->batches()->saveMany($this->cart->batches);
 
         $this->cart->update([
-            'converted' => true
+            'order_id' => $order->id
         ]);
-
-        Mail::to('mariovegadev@gmail.com')->send(new OrderCreated($order));
     }
 }

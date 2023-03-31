@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CustomerAssetController;
 use App\Http\Controllers\ImageUploadPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductPageController;
@@ -54,9 +55,6 @@ Route::get('/checkout/success', function() {
     return 'great success!';
 })->name('checkout.success');
 
-Route::get('/checkout/cancel', function() {
-    return 'order canceled!';
-})->name('checkout.cancel');
 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'create']);
 
@@ -65,6 +63,7 @@ Route::get('/stripe/webhook', [StripeWebhookController::class, 'show']);
 Route::get('example', ExampleComponent::class);
 
 Route::get('/assets/temp', [TemporaryAssetController::class, 'show'])->name('assets.temp');
+Route::get('/assets/customer', [CustomerAssetController::class, 'show'])->name('assets.customer');
 
 Route::get('/profile/orders/{order}', [OrderController::class, 'show'])->name('profile.orders.show');
 

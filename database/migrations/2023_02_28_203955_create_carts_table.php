@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('session_id');
             $table->string('user_id')->nullable();
-            $table->boolean('converted')->default(false);
+            $table->string('order_id')->nullable();
             $table->timestamps();
         });
     }

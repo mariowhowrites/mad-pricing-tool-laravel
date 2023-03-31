@@ -34,7 +34,8 @@
                                             Ordered on
                                             <time datetime="{{ $order->created_at->toDateString() }}">{{ $order->created_at->toFormattedDateString() }}</time>
                                         </p>
-                                        <p class="mt-2 flex items-center text-sm text-gray-500">
+                                        {{-- Order status will go below once implemented --}}
+                                        {{-- <p class="mt-2 flex items-center text-sm text-gray-500">
                                             <svg class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400" viewBox="0 0 20 20"
                                                 fill="currentColor" aria-hidden="true">
                                                 <path fill-rule="evenodd"
@@ -42,7 +43,7 @@
                                                     clip-rule="evenodd" />
                                             </svg>
                                             Completed phone screening
-                                        </p>
+                                        </p> --}}
                                     </div>
                                 </div>
                             </div>
