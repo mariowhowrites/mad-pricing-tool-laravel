@@ -4,15 +4,17 @@ namespace App\Http\Livewire;
 
 use App\Models\Batch;
 use App\Models\Cart as CartModel;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Stripe;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
 class CartComponent extends Component
 {
     public $batches = [];
     public CartModel $cart;
-
+    public $stripeError = false;
 
     public function mount()
     {
@@ -61,10 +63,15 @@ class CartComponent extends Component
             'client_reference_id' => $this->cart->id
         ];
 
-        // we are interacting with stripe here, we need to have a fallback in case this fails
-        $checkoutSession = $stripe->checkout->sessions->create($checkoutParams);
+        try {
+            $checkoutSession = $stripe->checkout->sessions->create($checkoutParams);
 
-        redirect($checkoutSession->url);
+            redirect($checkoutSession->url);
+        } catch (ApiErrorException $e) {
+            Log::error($e);
+
+            $this->stripeError = true;
+        }
     }
 
     protected function convertCartToLineItems()
