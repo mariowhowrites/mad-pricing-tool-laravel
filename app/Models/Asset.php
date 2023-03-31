@@ -51,12 +51,20 @@ class Asset extends Model
             $directory = explode('/', $this->upload_path)[0];
             Storage::disk('temp')->deleteDirectory($directory);
         }
+
+        return $success;
     }
 
     public static function createTemporaryAsset($file, $batch)
     {
+        $upload_path = $file->store($batch->id, 'temp');
+
+        if (!$upload_path) {
+            return false;
+        }
+
         $asset = static::create([
-            'upload_path' => $file->store($batch->id, 'temp'),
+            'upload_path' => $upload_path,
             'status' => AssetStatus::Temporary
         ]);
 

@@ -13,6 +13,5 @@
             Add to Cart
         </button>
     @endif
-
 </div>
 

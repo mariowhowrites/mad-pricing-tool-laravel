@@ -14,7 +14,6 @@ class CartComponent extends Component
 {
     public $batches = [];
     public CartModel $cart;
-    public $stripeError = false;
 
     public function mount()
     {
@@ -70,7 +69,7 @@ class CartComponent extends Component
         } catch (ApiErrorException $e) {
             Log::error($e);
 
-            $this->stripeError = true;
+            $this->addError('stripe', 'Sorry! An unexpected error occurred. Please try again in a few moments.');
         }
     }
 

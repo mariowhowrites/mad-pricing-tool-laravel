@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\TemporaryAssetController;
+use App\Http\Livewire\CheckoutSuccess;
 use App\Http\Livewire\ExampleComponent;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -51,9 +52,7 @@ Route::get('upload', [ImageUploadPageController::class, 'index'])->name('upload'
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 
-Route::get('/checkout/success', function() {
-    return 'great success!';
-})->name('checkout.success');
+Route::get('/checkout/success', CheckoutSuccess::class)->name('checkout.success');
 
 
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'create']);
