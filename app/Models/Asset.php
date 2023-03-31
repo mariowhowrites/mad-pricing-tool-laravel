@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enums\AssetStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -9,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 class Asset extends Model
 {
     protected $guarded = [];
+
+    protected $casts = [
+        'status' => AssetStatus::class
+    ];
 
     public function batches()
     {
@@ -23,7 +28,7 @@ class Asset extends Model
         parent::boot();
 
         static::updated(function ($asset) {
-            if ($asset->status === 'customer_assets') {
+            if ($asset->status === AssetStatus::Customer) {
                 $asset->moveToCustomerAssetsDisk();
             }
         });
@@ -52,7 +57,7 @@ class Asset extends Model
     {
         $asset = static::create([
             'upload_path' => $file->store($batch->id, 'temp'),
-            'status' => 'temporary'
+            'status' => AssetStatus::Temporary
         ]);
 
         $batch->assets()->attach($asset);
@@ -62,7 +67,7 @@ class Asset extends Model
 
     public function getTemporaryFileURL()
     {
-        if ($this->status !== 'temporary') {
+        if ($this->status !== AssetStatus::Temporary) {
             return;
         }
 
