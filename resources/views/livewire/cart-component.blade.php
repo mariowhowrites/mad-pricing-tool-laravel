@@ -29,7 +29,7 @@
     <p>Cart total ${{ $this->cart->price_in_dollars }}</p>
     
     @if ($this->stripeError !== null)
-        <p class="text-red-600">Sorry, an unexpected error occurred. Please try again in a few moments.</p>
+        <p class="text-red-600">Sorry! An unexpected error occurred. Please try again in a few moments.</p>
     @endif
     <button wire:click="checkout">Checkout</button>
 </div>
