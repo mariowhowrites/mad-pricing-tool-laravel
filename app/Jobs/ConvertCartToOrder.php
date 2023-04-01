@@ -71,7 +71,7 @@ class ConvertCartToOrder implements ShouldQueue
         if ($user) {
             $user->addresses()->save($this->address);
         }
-
+        
         $order->batches()->saveMany($this->cart->batches);
 
         $this->cart->update([

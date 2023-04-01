@@ -39,17 +39,12 @@ class Asset extends Model
     {
         $file = Storage::disk('temp')->get($this->upload_path);
         
-        Log::info('Moving asset to customer_assets disk: ' . $this->upload_path);
+        Log::info('Moving upload to customer_assets disk: ' . $this->upload_path);
         $success = Storage::disk('customer_assets')->put($this->upload_path, $file);
         
         if ($success) {
-            Log::info('Deleting asset from temp disk: ' . $this->upload_path);
-            Storage::disk('temp')->delete($this->upload_path);
-
-            // we can also delete the directory where the temporary asset was stored
-            // we can get the directory name from the upload_path
-            $directory = explode('/', $this->upload_path)[0];
-            Storage::disk('temp')->deleteDirectory($directory);
+            Log::info('Deleting upload from temp disk: ' . $this->upload_path);
+            $this->deleteTemporaryUpload();
         }
 
         return $success;
@@ -80,6 +75,30 @@ class Asset extends Model
         }
 
         return Storage::url($this->upload_path);
+    }
+
+    public function deleteTemporaryUpload()
+    {
+        $success = Storage::disk('temp')->delete($this->upload_path);
+        $directory = explode('/', $this->upload_path)[0];
+        Storage::disk('temp')->deleteDirectory($directory);
+
+        return $success;
+    }
+
+    public function deleteAndClearUploads()
+    {
+        if ($this->status !== AssetStatus::Temporary) {
+            return;
+        }
+
+        $success = $this->deleteTemporaryUpload();
+
+        if ($success) {
+            $this->delete();
+        }
+
+        return $success;
     }
 }
 

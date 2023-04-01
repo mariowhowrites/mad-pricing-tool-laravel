@@ -68,4 +68,15 @@ trait HasAssets
     {
         return route('assets.customer', ['token' => Crypt::encrypt($this->id)]);
     }
+
+    public function deleteWithAssets()
+    {
+        $assets = $this->assets;
+
+        $this->assets()->detach();
+
+        $assets->each(fn ($asset) => $asset->deleteAndClearUploads());
+
+        $this->delete();
+    }
 }
