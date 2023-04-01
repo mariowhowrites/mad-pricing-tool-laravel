@@ -32,6 +32,12 @@ class Asset extends Model
                 $asset->moveToCustomerAssetsDisk();
             }
         });
+
+        static::deleting(function ($asset) {
+            if ($asset->status === AssetStatus::Temporary) {
+                $asset->deleteTemporaryUpload();
+            }
+        });
     }
 
     // here, we need to retrieve the image stored at `upload_path` and move it to the `customer_assets` disk

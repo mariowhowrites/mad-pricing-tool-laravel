@@ -27,13 +27,4 @@ trait HasBatches
             return $this->batches->sum('quantity');
         });
     }
-
-    public function deleteWithAllBatches()
-    {
-        $this->batches->each(function ($batch) {
-            $batch->deleteWithAssets();
-        });
-
-        $this->delete();
-    }
 }

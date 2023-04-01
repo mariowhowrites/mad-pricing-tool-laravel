@@ -56,4 +56,13 @@ class Cart extends Model
             'order_id' => null
         ]);
     }
+
+    public function deleteWithAllBatches()
+    {
+        $this->batches->each(function ($batch) {
+            $batch->deleteWithAssets();
+        });
+
+        $this->delete();
+    }
 }

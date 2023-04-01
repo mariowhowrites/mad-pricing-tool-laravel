@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Tasks\DeleteInactiveCarts;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('cache:prune-stale-tags')->hourly();
+        $schedule->command(DeleteInactiveCarts::class)->daily();
     }
 
     /**

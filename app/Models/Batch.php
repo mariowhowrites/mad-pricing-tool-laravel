@@ -85,16 +85,22 @@ class Batch extends Model
     {
         $batch = static::find($batchID);
 
-        if ($batch->order_id) {
-            Log::error("Cannot delete batch {$batchID} because it is associated with order {$batch->order_id}");
+        $batch->deleteWithAssets();
+    }
+
+    public function deleteWithAssets()
+    {
+        if ($this->order_id) {
+            Log::error("Cannot delete batch {$this->id} because it is associated with order {$this->order_id}");
             return;
         }
 
-        $batch->temporaryAssets()->get()->each(function($asset) use ($batch) {
-            $batch->assets()->detach($asset->id);
-            $asset->delete();
-        });
+        $assets = $this->assets;
 
-        $batch->delete();
+        $this->assets()->detach();
+
+        $assets->each(fn ($asset) => $asset->delete());
+
+        $this->delete();
     }
 }
