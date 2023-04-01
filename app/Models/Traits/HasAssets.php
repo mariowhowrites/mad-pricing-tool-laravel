@@ -14,16 +14,6 @@ trait HasAssets
         return $this->belongsToMany(Asset::class);
     }
 
-    public function addAsset(Asset $asset)
-    {
-        $this->assets()->attach($asset);
-    }
-
-    public function removeAsset(Asset $asset)
-    {
-        $this->assets()->detach($asset);
-    }
-
     public function temporaryAssets()
     {
         return $this->assets()->where('status', AssetStatus::Temporary);

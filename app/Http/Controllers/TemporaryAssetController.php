@@ -6,6 +6,7 @@ use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class TemporaryAssetController extends Controller
 {
@@ -20,7 +21,7 @@ class TemporaryAssetController extends Controller
 
             $asset = $batch->getTemporaryAsset();
 
-            return response()->file(storage_path('app/assets/temp/' . $asset->upload_path));
+            return response()->file(Storage::disk('temp')->path($asset->upload_path));
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(['error' => 'Invalid token'], 401);
