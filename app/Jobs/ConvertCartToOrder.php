@@ -2,7 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Mail\OrderCreated;
+use App\Mail\AdminOrderCreated;
+use App\Mail\CustomerOrderCreated;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
@@ -51,7 +52,11 @@ class ConvertCartToOrder implements ShouldQueue
             Log::error($e->getMessage());
         }
 
-        Mail::to('mariovegadev@gmail.com')->send(new OrderCreated($this->cart->fresh()->order));
+        $order = $this->cart->fresh()->order;
+
+        // mail.from.address is our admin email address
+        Mail::to(config('mail.from.address'))->send(new AdminOrderCreated($order));
+        Mail::to($this->customer_email)->send(new CustomerOrderCreated($order));
     }
 
     protected function runTransaction()

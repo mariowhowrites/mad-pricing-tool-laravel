@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,7 +12,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreated extends Mailable
+class CustomerOrderCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +30,7 @@ class OrderCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Created',
+            subject: 'New Stickers 🔜',
         );
     }
 
@@ -39,7 +40,7 @@ class OrderCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.order-created',
+            view: 'email.customer-order-created',
         );
     }
 
@@ -50,8 +51,6 @@ class OrderCreated extends Mailable
      */
     public function attachments(): array
     {
-        return $this->order->batches->map(function ($batch) {
-            return Attachment::fromStorageDisk('customer_assets', $batch->latestCustomerAssetPath());
-        })->toArray();
+        return [Attachment::fromData(fn () => Pdf::loadView('email.customer-order-created', ['order' => $this->order])->output(), 'order.pdf')];
     }
 }
