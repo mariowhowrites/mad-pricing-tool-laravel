@@ -10,6 +10,7 @@ use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\TemporaryAssetController;
 use App\Http\Livewire\CheckoutSuccess;
 use App\Http\Livewire\ExampleComponent;
+use App\Http\Middleware\DecryptImageToken;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
@@ -61,8 +62,11 @@ Route::get('/stripe/webhook', [StripeWebhookController::class, 'show']);
 
 Route::get('example', ExampleComponent::class);
 
-Route::get('/assets/temp', [TemporaryAssetController::class, 'show'])->name('assets.temp');
-Route::get('/assets/customer', [CustomerAssetController::class, 'show'])->name('assets.customer');
+
+Route::middleware([DecryptImageToken::class])->group(function () {
+    Route::get('/assets/temp', [TemporaryAssetController::class, 'show'])->name('assets.temp');
+    Route::get('/assets/customer', [CustomerAssetController::class, 'show'])->name('assets.customer');
+});
 
 Route::get('/profile/orders/{order}', [OrderController::class, 'show'])->name('profile.orders.show');
 

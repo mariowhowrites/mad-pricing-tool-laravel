@@ -18,7 +18,7 @@ class Batch extends Model
     {
         return $this->belongsTo(Cart::class);
     }
-
+    
     public function order()
     {
         return $this->belongsTo(Order::class);
