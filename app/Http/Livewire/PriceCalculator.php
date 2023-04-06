@@ -82,6 +82,12 @@ class PriceCalculator extends Component
 
     public function goToImageUpload()
     {
+        $this->validate();
+
+        if (!$this->getErrorBag()->isEmpty()) {
+            return;
+        }
+
         $batch = [
             'width' => floatval($this->width),
             'height' => floatval($this->height),
