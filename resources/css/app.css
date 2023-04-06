@@ -1,3 +1,114 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* PANGRAM START  */
+@font-face {
+    font-family: 'Pangram Sans';
+    src: url('/resources/fonts/Pangram-ExtraLight.otf') format('opentype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Pangram Sans';
+    src: url('/resources/fonts/Pangram-Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Pangram Sans';
+    src: url('/resources/fonts/Pangram-Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Pangram Sans';
+    src: url('/resources/fonts/Pangram-Black.otf') format('opentype');
+    font-weight: 900;
+}
+/* PANGRAM END */
+
+/* GOSHA START */
+/* @font-face {
+    font-family: 'Gosha Sans';
+    src: url('/resources/fonts/GoshaSans-Ultralight.otf') format('opentype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Gosha Sans';
+    src: url('/resources/fonts/GoshaSans-Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Gosha Sans';
+    src: url('/resources/fonts/GoshaSans-Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Gosha Sans';
+    src: url('/resources/fonts/GoshaSans-Ultrabold.otf') format('opentype');
+    font-weight: 800;
+} */
+/* GOSHA END */
+
+/* OBJECT SANS START */
+
+/* @font-face {
+    font-family: 'Object Sans';
+    src: url('/resources/fonts/ObjectSans-Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Object Sans';
+    src: url('/resources/fonts/ObjectSans-Slanted.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Object Sans';
+    src: url('/resources/fonts/ObjectSans-Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Object Sans';
+    src: url('/resources/fonts/ObjectSans-Heavy.otf') format('opentype');
+    font-weight: 900;
+}
+ */
+
+
+ @font-face {
+    font-family: 'Neue Machina';
+    src: url('/resources/fonts/NeueMachina-Ultralight.otf') format('opentype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Neue Machina';
+    src: url('/resources/fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Neue Machina';
+    src: url('/resources/fonts/NeueMachina-Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Neue Machina';
+    src: url('/resources/fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Neue Machina';
+    src: url('/resources/fonts/NeueMachina-Black.otf') format('opentype');
+    font-weight: 900;
+}

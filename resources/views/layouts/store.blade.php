@@ -12,7 +12,7 @@
     @livewireStyles
 </head>
 
-<body class="antialiased text-white min-h-screen max-h-screen h-full bg-blue-700 flex flex-col">
+<body class="antialiased min-h-screen max-h-screen h-full flex flex-col">
 
     <x-navigation />
 

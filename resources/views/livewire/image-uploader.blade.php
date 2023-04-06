@@ -8,7 +8,7 @@
 
         <button 
             wire:click="addToCart" 
-            class="bg-red-500 hover:bg-red-700 text-white px-2 py-3 rounded-lg shadow-md hover:shadow-lg"
+            class="bg-red-500 uppercase hover:bg-red-700 text-white px-2 py-3 shadow-md hover:shadow-lg"
         >
             Add to Cart
         </button>

@@ -1,5 +1,5 @@
 <div class="w-full min-w-6xl">
-    <section id="cart-table" class="border-w border flex flex-col w-3/5 mx-auto bg-slate-100 text-black rounded-2xl">
+    <section id="cart-table" class="border-w border flex flex-col w-3/5 mx-auto bg-white text-black">
         @if (count($cart->batches) == 0)
         <div class="py-4 px-2">No items yet!
             <a href="{{ route('retail') }}">Go to the store</a>

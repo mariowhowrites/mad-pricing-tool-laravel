@@ -1,7 +1,4 @@
-<div class="flex flex-col">
-    <h2 class="text-4xl mb-4">MadStickers Price Calculator</h2>
-
-
+<div class="flex flex-col space-y-8">
     <div class="flex flex-col lg:flex-row gap-4 max-w-full">
         <label class="flex flex-col">
             Width
@@ -22,10 +19,10 @@
         </label>
     </div>
 
-    <h2 class="text-3xl my-2">Your Prices</h2>
-    <form class="flex flex-col" wire:submit.prevent="goToImageUpload">
+    <form class="flex flex-col space-y-2" wire:submit.prevent="goToImageUpload">
+        <h2 class="text-xl font-serif uppercase">Your Prices</h2>
         @foreach($this->variantPrices as $variant => $price)
-        <div>
+        <div class="">
             <input 
                 type="radio" 
                 value="{{ $variant }}" 
@@ -37,7 +34,7 @@
         @endforeach
 
         @if (strlen($this->variant) > 0)
-            <button class="bg-red-500 hover:bg-red-700 text-white px-2 py-3 rounded-lg shadow-md hover:shadow-lg">Add to Cart</button>        
+            <button class="bg-red-500 hover:bg-red-700 text-white px-2 py-3 rounded-lg shadow-md hover:shadow-lg self-start">Add to Cart</button>        
         @endif
     </form>
 
