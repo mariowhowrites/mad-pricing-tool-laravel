@@ -46,6 +46,22 @@ class PriceCalculator extends Component
         return view('livewire.price-calculator');
     }
 
+    public function updatedWidth()
+    {
+        $this->validateOnly('width');
+    }
+
+    public function updatedHeight()
+    {
+        $this->validateOnly('height');
+    }
+
+
+    public function updatedQuantity()
+    {
+        $this->validateOnly('quantity');
+    }
+
     public function getSquareInchesProperty()
     {
         return floatval($this->width) * floatval($this->height) * intval($this->quantity);
