@@ -1,11 +1,11 @@
 <x-layout-component>
-    <div class="space-y-12">
+    <ul class="space-y-12">
         @foreach ($product->variants as $variant)
-        <div>
+        <li>
             <a href="{{ route('variant.show', compact('product', 'variant')) }}">
-                <h2 class="text-4xl text-6xl text-bold font-serif uppercase">{{ $variant->name }}</h2>
+                <h2 class="text-4xl text-6xl hover:text-bold hover:text-red-600 font-serif uppercase">⌾ {{ $variant->name }}</h2>
             </a>
-        </div>
+        </li>
         @endforeach
-    </div>
+    </ul>
 </x-layout-component>
