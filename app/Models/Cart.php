@@ -34,10 +34,6 @@ class Cart extends Model
             $cart = static::getFromSession();
         }
 
-        if (!isset($dimensions['price_snapshot_id'])) {
-            $dimensions['price_snapshot_id'] = PriceSnapshot::latest()->first()->id;
-        }
-
         return Batch::create(
             array_merge(
                 $dimensions,

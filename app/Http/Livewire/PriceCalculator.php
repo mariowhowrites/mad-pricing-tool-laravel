@@ -72,6 +72,7 @@ class PriceCalculator extends Component
             'height' => floatval($this->height),
             'quantity' => intval($this->quantity),
             'variant' => $this->variant->name,
+            'product_id' => $this->product->id,
         ];
 
         if ($this->wholesale) {

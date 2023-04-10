@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('order_id')->nullable();
             $table->string('variant');
             $table->boolean('wholesale')->default(false);
-            $table->integer('price_snapshot_id');
+            $table->integer('product_id');
         });
     }
 

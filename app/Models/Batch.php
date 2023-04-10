@@ -24,9 +24,9 @@ class Batch extends Model
         return $this->belongsTo(Order::class);
     }
 
-    public function priceSnapshot()
+    public function product()
     {
-        return $this->belongsTo(PriceSnapshot::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function squareInches(): Attribute
@@ -37,7 +37,7 @@ class Batch extends Model
     public function priceInDollars(): Attribute
     {
         return Attribute::make(get: function() {
-            $variantPrices = $this->priceSnapshot->getVariantPricesBySquareInches(
+            $variantPrices = $this->product->getVariantPricesBySquareInches(
                 $this->squareInches,
                 $this->wholesale
             );
