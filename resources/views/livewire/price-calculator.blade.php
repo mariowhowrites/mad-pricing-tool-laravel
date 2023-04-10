@@ -1,23 +1,24 @@
 <div class="flex flex-col space-y-8">
-    <div class="flex flex-col lg:flex-row gap-4 max-w-full">
-        <div class="flex flex-col">
-            <label for="width" class="uppercase font-serif">
+    <div class="flex flex-col gap-4 max-w-full">
+        <h2 class="text-3xl font-serif uppercase">Measurements</h2>
+        <div class="flex flex-col self-start">
+            <label for="width" class="">
                 Width
             </label>
             <input type="number" name="width" wire:model.debounce.500ms="width" inputmode="decimal" step="0.25"
                 class="h-24 text-black text-2xl px-4">
             @error('width') <span class="text-black mt-1 font-bold">{{ $message }}</span> @enderror
         </div>
-        <div class="flex flex-col">
-            <label for="height" class="uppercase font-serif">
+        <div class="flex flex-col self-start">
+            <label for="height" class="">
                 Height
             </label>
             <input type="number" name="height" wire:model.debounce.500ms="height" inputmode="decimal" step="0.25"
                 class="h-24 text-black text-2xl px-4">
             @error('height') <span class="text-black mt-1 font-bold">{{ $message }}</span> @enderror
         </div>
-        <div class="flex flex-col">
-            <label for="quantity" class="uppercase font-serif">
+        <div class="flex flex-col self-start">
+            <label for="quantity" class="">
                 Quantity
             </label>
             <input type="number" name="quantity" wire:model.debounce.500ms="quantity" step="50" class="h-24 text-black text-2xl px-4">
@@ -26,17 +27,13 @@
     </div>
 
     <form class="flex flex-col space-y-2" wire:submit.prevent="goToImageUpload">
-        <h2 class="text-xl font-serif uppercase">Your Prices</h2>
-        @foreach($this->variantPrices as $variant => $price)
-        <div class="">
-            <input type="radio" value="{{ $variant }}" name="variant" wire:model="variant">
-            <label for="{{ $variant }}">{{ $variant }}: ${{ $price }}</label>
-        </div>
-        @endforeach
+        <h2 class="text-3xl font-serif uppercase">Prices</h2>
+        <h2 class="text-3xl font-serif uppercase">${{ $this->variantPrice }}</h2>
+        
 
         @if (strlen($this->variant) > 0 && $errors->isEmpty())
         <button
-            class="bg-red-500 hover:bg-red-700 text-white px-2 py-3 rounded-lg shadow-md hover:shadow-lg self-start">Add
+            class="hover:bg-red-700 hover:text-white px-2 py-3 border border-black hover:border-transparent shadow-md hover:shadow-lg self-start">Add
             to Cart</button>
         @endif
     </form>

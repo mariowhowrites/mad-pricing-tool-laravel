@@ -11,6 +11,11 @@ class PriceSnapshot extends Model
 
     protected $guarded = [];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function priceMeasurements()
     {
         return $this->hasMany(PriceMeasurement::class);
@@ -31,6 +36,13 @@ class PriceSnapshot extends Model
         return PriceMeasurement::getClosest($squareInches, $this->id);
     }
 
+    /**
+     * @param $squareInches
+     * @param bool $wholesale
+     * @return array
+     * 
+     * First, this function gets the closest measurement to the square inches
+     */
     public function getVariantPricesBySquareInches($squareInches, $wholesale = false)
     {
         $closestMeasurement = $this->getClosestMeasurementBySquareInches($squareInches);
@@ -40,6 +52,23 @@ class PriceSnapshot extends Model
         }
 
         return PriceMeasurement::getVariantPricesBySquareInches(
+            $squareInches,
+            $this->id,
+            $closestMeasurement->distance,
+            $wholesale
+        );
+    }
+
+    public function getVariantPriceBySquareInches($variant, $squareInches, $wholesale = false)
+    {
+        $closestMeasurement = $this->getClosestMeasurementBySquareInches($squareInches);
+
+        if (!$closestMeasurement) {
+            return [];
+        }
+
+        return PriceMeasurement::getVariantPriceBySquareInches(
+            $variant,
             $squareInches,
             $this->id,
             $closestMeasurement->distance,

@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\TemporaryAssetController;
+use App\Http\Controllers\VariantPageController;
 use App\Http\Livewire\CheckoutSuccess;
 use App\Http\Livewire\ExampleComponent;
 use App\Http\Middleware\DecryptImageToken;
@@ -46,8 +47,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/retail', [ProductPageController::class, 'retail'])->name('retail');
-
 Route::get('/wholesale', [ProductPageController::class, 'wholesale'])->name('wholesale');
+
+Route::get('/product/{product}', [ProductPageController::class, 'show'])->name('product.show');
+
+Route::get('/product/{product}/{variant}', [VariantPageController::class, 'show'])->name('variant.show');
+
 
 Route::get('upload', [ImageUploadPageController::class, 'index'])->name('upload');
 

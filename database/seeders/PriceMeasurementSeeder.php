@@ -21,11 +21,11 @@ class PriceMeasurementSeeder extends Seeder
         $now = Carbon::now();
         
         foreach (CSV::rowsFromPath(storage_path('db/price_measurements.csv'), 5000) as $rows) {
-            static::insertPriceMeasurements($rows, $now);
+            $this->insertPriceMeasurements($rows, $now);
         }
     }
 
-    protected static function insertPriceMeasurements($rows, $now) {
+    protected function insertPriceMeasurements($rows, $now) {
         $items = collect($rows)->map(function ($row) use ($now) {
             return array_merge($row, ['updated_at' => $now]);
         });

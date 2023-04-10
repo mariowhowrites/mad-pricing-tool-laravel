@@ -9,7 +9,7 @@
             @endforeach
         </div>
         <div>
-            <a href="{{ route('retail' )}}" class="text-2xl text-9xl hover:text-bold hover:text-red-600 font-serif">BUY ➡</a>
+            <a href="{{ route('product.show', ['product' => 'stickers'])}}" class="text-2xl text-9xl hover:text-bold hover:text-red-600 font-serif">BUY ➡</a>
         </div>
     </div>
 </x-layout-component>
