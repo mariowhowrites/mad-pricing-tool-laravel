@@ -54,7 +54,9 @@ class PriceCalculator extends Component
     {
         return $this->product->getVariantPriceBySquareInches(
             $this->variant->name,
-            $this->squareInches,
+            $this->width,
+            $this->height,
+            $this->quantity,
             $this->wholesale
         );
     }

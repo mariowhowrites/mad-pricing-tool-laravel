@@ -38,7 +38,9 @@ class Batch extends Model
     {
         return Attribute::make(get: function() {
             $variantPrices = $this->product->getVariantPricesBySquareInches(
-                $this->squareInches,
+                $this->width,
+                $this->height,
+                $this->quantity,
                 $this->wholesale
             );
 

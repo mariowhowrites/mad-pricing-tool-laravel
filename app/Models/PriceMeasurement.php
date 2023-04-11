@@ -34,8 +34,9 @@ class PriceMeasurement extends Model
     }
 
     
-    public static function getVariantPricesBySquareInches($squareInches, $snapshotID, $closestDistance, $wholesale = false)
+    public static function getVariantPricesBySquareInches($width, $height, $quantity, $snapshotID, $closestDistance, $wholesale = false)
     {
+        $squareInches = $width * $height * $quantity;
         // get all price measurements
         $results = DB::table('price_measurements')
             ->select(['id', 'price_per_square_inch', 'square_inches', 'variant', DB::raw("ABS(square_inches - {$squareInches}) AS distance")])
@@ -50,8 +51,8 @@ class PriceMeasurement extends Model
         // $this->closestDistance = $closestDistance;
         // $this->results = $results;
                     
-        return $results->flatMap(function ($result) use ($squareInches, $wholesale) {
-            $price = $result->price_per_square_inch * $squareInches / 100;
+        return $results->flatMap(function ($result) use ($width, $height, $quantity, $wholesale) {
+            $price = static::calculatePrice($width, $height, $quantity, $result->price_per_square_inch);
 
             // take 30% off for wholesale
             if ($wholesale) {
@@ -62,8 +63,9 @@ class PriceMeasurement extends Model
         });
     }
 
-    public static function getVariantPriceBySquareInches($variant, $squareInches, $snapshotID, $closestDistance, $wholesale = false)
+    public static function getVariantPriceBySquareInches($variant, $width, $height, $quantity, $snapshotID, $closestDistance, $wholesale = false)
     {
+        $squareInches = $width * $height * $quantity;
         // get all price measurements
         $result = DB::table('price_measurements')
             ->select(['id', 'price_per_square_inch', 'square_inches', 'variant', DB::raw("ABS(square_inches - {$squareInches}) AS distance")])
@@ -75,6 +77,13 @@ class PriceMeasurement extends Model
             ->get()
             ->first();
                     
-        return number_format($result->price_per_square_inch * $squareInches / 100, 2);
+        return number_format(static::calculatePrice($width, $height, $quantity, $result->price_per_square_inch), 2);
+    }
+
+    protected static function calculatePrice($width, $height, $quantity, $pricePerSquareInch)
+    {
+        $unitPrice = round($width * $height * $pricePerSquareInch);
+
+        return $unitPrice * $quantity / 100;
     }
 }

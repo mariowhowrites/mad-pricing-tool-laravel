@@ -42,13 +42,13 @@ class Product extends Model
         return $this->priceSnapshots()->latest()->get()->first();
     }
 
-    public function getVariantPriceBySquareInches($variant, $squareInches, $wholesale)
+    public function getVariantPriceBySquareInches($variant, $width, $height, $quantity, $wholesale)
     {
-        return $this->latestPriceSnapshot()->getVariantPriceBySquareInches($variant, $squareInches, $wholesale);
+        return $this->latestPriceSnapshot()->getVariantPriceBySquareInches($variant, $width, $height, $quantity, $wholesale);
     }
 
-    public function getVariantPricesBySquareInches($squareInches, $wholesale)
+    public function getVariantPricesBySquareInches($width, $height, $quantity, $wholesale)
     {
-        return $this->latestPriceSnapshot()->getVariantPricesBySquareInches($squareInches, $wholesale);
+        return $this->latestPriceSnapshot()->getVariantPricesBySquareInches($width, $height, $quantity, $wholesale);
     }
 }
