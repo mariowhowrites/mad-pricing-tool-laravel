@@ -23,15 +23,17 @@ class PriceMeasurement extends Model
      */
     public static function getClosest($squareInches, $snapshotID)
     {
-        return DB::table('price_measurements')->select([
-            'id', DB::raw("ABS(square_inches - {$squareInches}) AS distance")
-        ])
-            ->where('price_snapshot_id', '=', $snapshotID)
-            ->orderBy('distance')
-            ->distinct()
-            ->limit(1)
-            ->get()
-            ->first();
+        return Cache::rememberForever("closest-measurement-{$squareInches}-{$snapshotID}", function () use ($squareInches, $snapshotID) {
+            return DB::table('price_measurements')->select([
+                'id', DB::raw("ABS(square_inches - {$squareInches}) AS distance")
+            ])
+                ->where('price_snapshot_id', '=', $snapshotID)
+                ->orderBy('distance')
+                ->distinct()
+                ->limit(1)
+                ->get()
+                ->first();
+        });
     }
 
     // todo: clean up this method signature a bit
@@ -50,15 +52,20 @@ class PriceMeasurement extends Model
                 ->get()
                 ->first();
                         
-            return number_format(static::calculatePrice($width, $height, $quantity, $result->price_per_square_inch), 2);
+            return number_format(static::calculatePrice($width, $height, $quantity, $result->price_per_square_inch, $wholesale), 2);
         });
     }
 
-    // we should apply wholesale here if applicable
-    protected static function calculatePrice($width, $height, $quantity, $pricePerSquareInch)
+    protected static function calculatePrice($width, $height, $quantity, $pricePerSquareInch, $wholesale = false)
     {
         $unitPrice = round($width * $height * $pricePerSquareInch);
 
-        return $unitPrice * $quantity / 100;
+        $totalPrice = $unitPrice * $quantity / 100;
+
+        if ($wholesale) {
+            $totalPrice = $totalPrice * 0.7;
+        }
+
+        return $totalPrice;
     }
 }
