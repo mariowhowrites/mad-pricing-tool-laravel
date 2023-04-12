@@ -33,7 +33,7 @@
 
         @if (strlen($this->variant) > 0 && $errors->isEmpty())
         <button
-            class="hover:bg-red-700 hover:text-white px-2 py-3 border border-black hover:border-transparent shadow-md hover:shadow-lg self-start">Add
+            class="hover:bg-red-700 hover:text-white px-2 py-3 border border-black hover:border-transparent shadow-md hover:shadow-lg self-start uppercase">Add
             to Cart</button>
         @endif
     </form>

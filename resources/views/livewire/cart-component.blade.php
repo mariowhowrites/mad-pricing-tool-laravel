@@ -1,5 +1,5 @@
 <div class="w-full min-w-6xl">
-    <section id="cart-table" class="border-w border flex flex-col w-3/5 mx-auto bg-white text-black">
+    <section id="cart-table" class="border-w border flex flex-col bg-white text-black">
         @if (count($cart->batches) == 0)
         <div class="py-4 px-2">No items yet!
             <a href="{{ route('product.show', ['product' => 'stickers']) }}">Go to the store</a>
@@ -31,5 +31,5 @@
     @error('stripe')
     <p class="text-red-600">{{ $message }}</p>
     @enderror
-    <button wire:click="checkout">Checkout</button>
+    <button class="hover:bg-red-700 hover:text-white px-2 py-3 border border-black hover:border-transparent shadow-md hover:shadow-lg self-start uppercase" wire:click="checkout">Checkout</button>
 </div>
