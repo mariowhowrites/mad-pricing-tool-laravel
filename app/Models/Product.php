@@ -46,9 +46,4 @@ class Product extends Model
     {
         return $this->latestPriceSnapshot()->getVariantPriceBySquareInches($variant, $width, $height, $quantity, $wholesale);
     }
-
-    public function getVariantPricesBySquareInches($width, $height, $quantity, $wholesale)
-    {
-        return $this->latestPriceSnapshot()->getVariantPricesBySquareInches($width, $height, $quantity, $wholesale);
-    }
 }

@@ -37,19 +37,16 @@ class Batch extends Model
     public function priceInDollars(): Attribute
     {
         return Attribute::make(get: function() {
-            $variantPrices = $this->product->getVariantPricesBySquareInches(
+            $variantPrice = $this->product->getVariantPriceBySquareInches(
+                $this->variant,
                 $this->width,
                 $this->height,
                 $this->quantity,
                 $this->wholesale
             );
-
                 
-            if (key_exists($this->variant, $variantPrices->toArray())) {
-                return $variantPrices[$this->variant];
-            }
     
-            return "Variant not found, cannot determine price";
+            return $variantPrice ?? "Variant not found, cannot determine price";
         });
     }
 

@@ -36,35 +36,8 @@ class PriceSnapshot extends Model
         return PriceMeasurement::getClosest($squareInches, $this->id);
     }
 
-    /**
-     * @param $squareInches
-     * @param bool $wholesale
-     * @return array
-     * 
-     * First, this function gets the closest measurement to the square inches
-     */
-    public function getVariantPricesBySquareInches($width, $height, $quantity, $wholesale = false)
-    {
-        $closestMeasurement = $this->getClosestMeasurementBySquareInches($width * $height * $quantity);
-
-        if (!$closestMeasurement) {
-            return [];
-        }
-
-        return PriceMeasurement::getVariantPricesBySquareInches(
-            $width,
-            $height,
-            $quantity,
-            $this->id,
-            $closestMeasurement->distance,
-            $wholesale
-        );
-    }
-
     public function getVariantPriceBySquareInches($variant, $width, $height, $quantity, $wholesale = false)
     {
-
-
         $closestMeasurement = $this->getClosestMeasurementBySquareInches($width * $height * $quantity);
 
         if (!$closestMeasurement) {
